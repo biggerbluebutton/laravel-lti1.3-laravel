@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace xcesaralejandro\lti1p3\Http\Controllers;
 
 use Illuminate\Contracts\View\View;
@@ -9,7 +9,7 @@ use App\Models\LtiPlatform;
 
 class DeploymentsController {
 
-    public function index(int $platform_id) : View {
+    public function index($platform_id) : View {
         $platforms = LtiPlatform::with('deployments')->findOrFail($platform_id);
         return View('lti1p3::admin.deployments.index')->with(['platform' => $platforms]);
     }
@@ -18,7 +18,7 @@ class DeploymentsController {
         return redirect()->back();
     }
 
-    public function store(int $platform_id, NewDeploymentRequest $request){
+    public function store( $platform_id, NewDeploymentRequest $request){
         $platform = LtiPlatform::findOrFail($platform_id);
         $record = $request->only(['lti_id', 'target_link_uri']);
         $record['lti1p3_platform_id'] = $platform->id;

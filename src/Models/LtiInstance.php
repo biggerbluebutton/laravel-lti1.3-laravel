@@ -8,13 +8,14 @@ use App\Models\LtiPlatform;
 use App\Models\LtiResourceLink;
 use App\Models\LtiUser;
 use Carbon\Carbon;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use MongoDB\Laravel\Auth\User as Authenticatable;
+use MongoDB\Laravel\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use xcesaralejandro\lti1p3\Traits\CastModelOnSave;
 
 class LtiInstance extends Authenticatable
 {
-    use SoftDeletes;
+    use SoftDeletes,CastModelOnSave;
 
     protected $table = 'lti1p3_instances';
     protected $keyType = 'string';
@@ -24,6 +25,12 @@ class LtiInstance extends Authenticatable
 
     protected $fillable = ['id', 'lti1p3_platform_id', 'lti1p3_deployment_id', 'lti1p3_context_id',
     'lti1p3_resource_link_id', 'lti1p3_user_id', 'initial_message', 'created_at'];
+    protected $casts = [
+        'initial_message' => 'string',
+        'custom' => 'array', // JSON column
+        'created_at' => 'datetime',
+        'deleted_at' => 'datetime',
+    ];
 
     public function platform() : BelongsTo {
         return $this->belongsTo(LtiPlatform::class, 'lti1p3_platform_id');

@@ -5,22 +5,28 @@ namespace xcesaralejandro\lti1p3\Models;
 use App\Models\LtiContext;
 use App\Models\LtiDeployment;
 use App\Models\LtiUser;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\hasMany;
+use MongoDB\Laravel\Eloquent\Model;
+use MongoDB\Laravel\Relations\HasMany;
 use GuzzleHttp\Client;
 use \Firebase\JWT\JWK;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use xcesaralejandro\lti1p3\Traits\CastModelOnSave;
 
 class LtiPlatform extends Model
 {
-    use HasFactory, SoftDeletes;
+    use  SoftDeletes,CastModelOnSave;
 
     protected $table = 'lti1p3_platforms';
 
     protected $fillable = ['issuer_id', 'client_id', 'authorization_url', 'authentication_url',
     'json_webkey_url','signature_method', 'deployment_id_autoregister', 'local_name', 'version',
     'product_family_code', 'guid', 'name', 'lti_advantage_token_url'];
+    protected $casts = [
+        'deployment_id_autoregister' => 'boolean',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
+    ];
 
     public function users() : HasMany {
         return $this->hasMany(LtiUser::class, 'lti1p3_platform_id', 'id');

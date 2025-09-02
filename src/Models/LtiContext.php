@@ -3,20 +3,27 @@
 namespace xcesaralejandro\lti1p3\Models;
 
 use App\Models\LtiDeployment;
-use App\Models\LtiPlatform;
 use App\Models\LtiResourceLink;
 use App\Models\LtiUserRole;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use MongoDB\Laravel\Eloquent\Model;
+use MongoDB\Laravel\Relations\HasMany;
+use MongoDB\Laravel\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use xcesaralejandro\lti1p3\Traits\CastModelOnSave;
 
 class LtiContext extends Model
 {
-    use HasFactory, SoftDeletes;
+    use  SoftDeletes,CastModelOnSave;
 
     protected $table = 'lti1p3_contexts';
+    protected $casts = [
+        'label' => 'string',
+        'title' => 'string',
+        'type' => 'string',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
+    ];
     protected $fillable = ['lti1p3_deployment_id','lti_id', 'label', 'title', 'type'];
 
     public function resourceLinks() : HasMany {

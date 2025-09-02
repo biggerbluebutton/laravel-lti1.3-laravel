@@ -3,19 +3,22 @@
 namespace xcesaralejandro\lti1p3\Models;
 
 use App\Models\LtiPlatform;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use MongoDB\Laravel\Eloquent\Model;
+use MongoDB\Laravel\Relations\BelongsTo;
 use Ramsey\Uuid\Uuid;
+use xcesaralejandro\lti1p3\Traits\CastModelOnSave;
 
 class LtiNonce extends Model
 {
-    use HasFactory;
-
+    use CastModelOnSave;
     protected $table = 'lti1p3_nonces';
     protected $fillable = ['value', 'lti1p3_platform_id'];
     protected $keyType = 'string';
     public $incrementing = false;
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
 
     protected static function boot(){
         parent::boot();
