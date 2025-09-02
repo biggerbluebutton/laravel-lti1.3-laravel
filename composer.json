@@ -40,7 +40,7 @@
             }
         },
         "branch-alias": {
-            "dev-main": "1.x-dev"
+            "dev-main": "dev-main"
         }
     },
     "config": { "sort-packages": true }
