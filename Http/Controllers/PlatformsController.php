@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace xcesaralejandro\lti1p3\Http\Controllers;
 
 use Illuminate\Contracts\View\View;
@@ -9,9 +9,30 @@ use App\Models\LtiPlatform;
 class PlatformsController {
 
     public function index() : View {
+        $platforms = $platforms = LtiPlatform::raw(function ($collection) {
+            return $collection->aggregate([
+                [
+                    '$lookup' => [
+                        'from'         => 'lti_deployments',
+                        'localField'   => '_id',              // LtiPlatform _id
+                        'foreignField' => 'lti_platform_id',  // in LtiDeployment
+                        'as'           => 'deployments',
+                    ],
+                ],
+                [
+                    '$addFields' => [
+                        'deployments_count' => ['$size' => '$deployments'],
+                    ],
+                ],
+                [
+                    '$project' => [
+                        'deployments' => 0, // drop the big array, keep only the count
+                    ],
+                ],
+            ]);
+        });
         return View('lti1p3::admin.platforms.index')->with([
-            'platforms' => LtiPlatform::withCount('deployments')
-            ->orderBy('id','desc')->get(),
+            'platforms' => $platforms
         ]);
     }
 
