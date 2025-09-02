@@ -1,7 +1,12 @@
 {
     "name": "biggerbluebutton/lti1p3",
-    "description": "This package provides a simple integration for lti 1.3 with laravel and mongodb",
+    "description": "Simple Laravel + MongoDB integration for IMS LTI 1.3 (LTI Advantage).",
+    "type": "library",
     "license": "MIT",
+    "authors": [
+        { "name": "César Alejandro Mora Cid", "email": "cesar.mcid@gmail.com" },
+        { "name": "BiggerBlueButton Team" }
+    ],
     "require": {
         "php": "^8.0",
         "guzzlehttp/guzzle": "^7.0.1",
@@ -10,28 +15,33 @@
         "laravel/framework": ">=11.0",
         "mongodb/laravel-mongodb": "^5.4"
     },
+    "require-dev": {
+        "orchestra/testbench": "^9.0",
+        "phpunit/phpunit": "^10.5"
+    },
     "autoload": {
-        "psr-4" : {
-            "xcesaralejandro\\lti1p3\\" : "src/",
-            "xcesaralejandro\\lti1p3\\Http\\" : "Http/"
+        "psr-4": {
+            "xcesaralejandro\\lti1p3\\": "src/",
+            "xcesaralejandro\\lti1p3\\Http\\": "Http/"
         }
     },
     "autoload-dev": {
-        "psr-4" : {
-            "xcesaralejandro\\lti1p3\\Tests\\" : "tests/"
+        "psr-4": {
+            "xcesaralejandro\\lti1p3\\Tests\\": "tests/"
         }
-    },
-    "require-dev": {
-        "orchestra/testbench": "^9.0"
     },
     "extra": {
-        "laravel" : {
-            "providers" : [
+        "laravel": {
+            "providers": [
                 "xcesaralejandro\\lti1p3\\Providers\\Lti1p3ServiceProvider"
             ],
-            "aliases" : {
-                "Launch" : "xcesaralejandro\\lti1p3\\Facades\\Launch"
+            "aliases": {
+                "Launch": "xcesaralejandro\\lti1p3\\Facades\\Launch"
             }
+        },
+        "branch-alias": {
+            "dev-main": "1.x-dev"
         }
-    }
+    },
+    "config": { "sort-packages": true }
 }
